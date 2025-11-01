@@ -492,6 +492,14 @@ function calculatePointsToNextLevel(currentLevel)
 	return (currentLevel+2)^3 * 10
 end
 
+function calculateJobLevelBonus(jobLevel)
+	-- Level 0: 1.0x (kein Bonus)
+	-- Level 1: 1.02x (+2%)
+	-- Level 5: 1.1x (+10%)
+	-- Level 10: 1.2x (+20%)
+	return 1 + (jobLevel * 0.02)
+end
+
 function calculateMoneyToNextVehicleSlot(currentLevel)
 	return (currentLevel + 1) * VEHICLE_SLOT_UPGRADE_PRICE
 end

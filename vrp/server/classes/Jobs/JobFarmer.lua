@@ -72,6 +72,11 @@ function JobFarmer:giveJobMoney(player)
 		self.m_PlayerIncomeCache[player].tractor = 0
 	end
 	if income > 0 then
+		-- Job-Level-Bonus
+		local jobLevelBonus = calculateJobLevelBonus(player:getJobLevel())
+		income = math.floor(income * jobLevelBonus)
+		earnedPoints = math.round(earnedPoints * jobLevelBonus)
+		
 		local duration = getRealTime().timestamp - player.m_LastJobAction
 		player.m_LastJobAction = getRealTime().timestamp
 		player:giveCombinedReward("Farmer-Job", {

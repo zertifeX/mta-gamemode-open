@@ -105,6 +105,11 @@ function JobTrashman:dumpCans(hitElement, matchingDimension)
 
 			if numCans and numCans > 0 then
 				local moneyAmount = numCans * MONEY_PER_CAN * JOB_PAY_MULTIPLICATOR * self:getMultiplicator()
+				
+				-- Job-Level-Bonus
+				local jobLevelBonus = calculateJobLevelBonus(hitElement:getJobLevel())
+				moneyAmount = math.floor(moneyAmount * jobLevelBonus)
+				
 				local duration = getRealTime().timestamp - hitElement.m_LastJobAction
 				local points = math.round(moneyAmount / 50 * JOB_EXTRA_POINT_FACTOR)
 				hitElement.m_LastJobAction = getRealTime().timestamp

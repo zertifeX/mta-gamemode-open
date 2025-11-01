@@ -113,6 +113,11 @@ function JobTreasureSeeker:onDeliveryHit(hitElement, dim)
 						local model = veh.Magnet.Object:getModel()
 						if not self.m_TreasureTypes[model] then return end
 						local loan = math.random(self.m_TreasureTypes[model]["Min"], self.m_TreasureTypes[model]["Max"]) * JOB_PAY_MULTIPLICATOR
+						
+						-- Job-Level-Bonus
+						local jobLevelBonus = calculateJobLevelBonus(hitElement:getJobLevel())
+						loan = math.floor(loan * jobLevelBonus)
+						
 						local duration = getRealTime().timestamp - hitElement.m_LastJobAction
 						local points = math.floor(5*JOB_EXTRA_POINT_FACTOR)
 						hitElement.m_LastJobAction = getRealTime().timestamp

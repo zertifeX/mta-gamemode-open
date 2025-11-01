@@ -49,6 +49,11 @@ function JobPizza:onPizzaDeliver(distance, time)
 
 		local workFactor = math.min(distance, 1899) / math.max(time, 10) -- Note: 1899 is the longest distance from start point
 		local pay = math.floor(BASE_LOAN * workFactor*2  * JOB_PAY_MULTIPLICATOR * self:getMultiplicator())
+		
+		-- Job-Level-Bonus
+		local jobLevelBonus = calculateJobLevelBonus(client:getJobLevel())
+		pay = math.floor(pay * jobLevelBonus)
+		
 		local duration = getRealTime().timestamp - client.m_LastJobAction
 		client.m_LastJobAction = getRealTime().timestamp
 		local points = math.round(pay / 50 * JOB_EXTRA_POINT_FACTOR)

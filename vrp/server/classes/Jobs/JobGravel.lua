@@ -239,6 +239,11 @@ function JobGravel:Event_onGravelMine(rockDestroyed, times)
 			local duration = getRealTime().timestamp - client.m_LastJobAction
 			client.m_LastJobAction = getRealTime().timestamp
 			local money = times * LOAN_MINING * JOB_PAY_MULTIPLICATOR * self:getMultiplicator()
+			
+			-- Job-Level-Bonus
+			local jobLevelBonus = calculateJobLevelBonus(client:getJobLevel())
+			money = math.floor(money * jobLevelBonus)
+			
 			local points = math.round(money / 50 * JOB_EXTRA_POINT_FACTOR)
 			self.m_BankAccount:transferMoney({client, true}, money, "Kiesgruben-Job", "job", "gravel.mining")
 			client:givePoints(points)
@@ -284,6 +289,11 @@ function JobGravel:Event_onCollectingContainerHit(track)
 					if not self.m_DozerDropTimer[client] then
 						self.m_DozerDropTimer[client] = setTimer(function()
 							local loan = LOAN_DOZER * (self.m_DozerDropStones[client] or 0) * JOB_PAY_MULTIPLICATOR * self:getMultiplicator()
+							
+							-- Job-Level-Bonus
+							local jobLevelBonus = calculateJobLevelBonus(client:getJobLevel())
+							loan = math.floor(loan * jobLevelBonus)
+							
 							local duration = getRealTime().timestamp - client.m_LastJobAction
 							client.m_LastJobAction = getRealTime().timestamp
 							local points = math.round(loan / 50 * JOB_EXTRA_POINT_FACTOR)

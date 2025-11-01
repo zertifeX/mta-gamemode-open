@@ -52,6 +52,11 @@ function JobRoadSweeper:onDeliveryHit(hitElement, dim)
 			if hitElement.vehicle.Garbage and hitElement.vehicle.Garbage > 0 then
 				local garbage = hitElement.vehicle.Garbage
 				local loan = garbage * SWEEPER_LOAN * JOB_PAY_MULTIPLICATOR * self:getMultiplicator()
+				
+				-- Job-Level-Bonus
+				local jobLevelBonus = calculateJobLevelBonus(hitElement:getJobLevel())
+				loan = math.floor(loan * jobLevelBonus)
+				
 				hitElement.vehicle.Garbage = 0
 				hitElement:sendShortMessage(_("%d Abfälle abgegeben!\nAbfallbehälter: %d/%d", hitElement, garbage, hitElement.vehicle.Garbage, SWEEPER_MAX_LOAD))
 
